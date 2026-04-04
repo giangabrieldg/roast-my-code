@@ -1,0 +1,27 @@
+{
+  "name": "rmc",
+  "version": "1.0.0",
+  "description": "A fun hobby web app that roasts your code using AI. Paste code, click a button, get brutally honest (and funny) feedback.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giangabrieldg/roast-my-code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/giangabrieldg/roast-my-code/issues"
+  },
+  "homepage": "https://github.com/giangabrieldg/roast-my-code#readme",
+  "dependencies": {
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.1.2"
+  }
+}
