@@ -1,20 +1,52 @@
+// ─── Toast System ────────────────────────────
+function showToast(msg, duration = 4000) {
+  const container = document.getElementById("toastContainer");
+
+  const toast = document.createElement("div");
+  toast.className = "pixel-toast";
+
+  const msgSpan = document.createElement("span");
+  msgSpan.textContent = msg;
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "toast-close";
+  closeBtn.textContent = "[X]";
+  closeBtn.onclick = () => dismissToast(toast);
+
+  toast.appendChild(msgSpan);
+  toast.appendChild(closeBtn);
+  container.appendChild(toast);
+
+  setTimeout(() => dismissToast(toast), duration);
+}
+
+function dismissToast(toast) {
+  if (!toast.parentElement) return;
+  toast.classList.add("toast-exit");
+  setTimeout(() => toast.remove(), 300);
+}
+
+// ─── Main Logic ───────────────────────────────
 async function roastCode() {
   const code = document.getElementById("codeInput").value.trim();
-  const btn = document.getElementById("roastBtn");
 
-  // Validation
+  // Validation → toast instead of inline error
   if (!code) {
-    showError("Please paste some code first. We need something to judge.");
+    showToast("Please paste some code first. We need something to judge.");
     return;
   }
   if (code.length < 10) {
-    showError("That's barely code. Give us at least a few lines to work with!");
+    showToast("That's barely code. Give us at least a few lines to work with!");
+    return;
+  }
+  if (code.length > 10000) {
+    showToast(
+      "Code is too long! Keep it under 10,000 characters so we can roast it properly.",
+    );
     return;
   }
 
-  // UI: loading state
   setLoading(true);
-  hideError();
   hideResults();
 
   try {
@@ -32,7 +64,7 @@ async function roastCode() {
 
     showResults(data);
   } catch (err) {
-    showError(err.message || "Network error. Is the server running?");
+    showToast(err.message || "Network error. Is the server running?");
   } finally {
     setLoading(false);
   }
@@ -55,16 +87,6 @@ function hideResults() {
   document.getElementById("placeholder").classList.remove("d-none");
 }
 
-function showError(msg) {
-  const box = document.getElementById("errorBox");
-  document.getElementById("errorMsg").textContent = msg;
-  box.classList.remove("d-none");
-}
-
-function hideError() {
-  document.getElementById("errorBox").classList.add("d-none");
-}
-
 function setLoading(on) {
   const btn = document.getElementById("roastBtn");
   btn.querySelector(".btn-text").classList.toggle("d-none", on);
@@ -75,7 +97,6 @@ function setLoading(on) {
 function clearAll() {
   document.getElementById("codeInput").value = "";
   hideResults();
-  hideError();
 }
 
 // Allow Ctrl+Enter to submit

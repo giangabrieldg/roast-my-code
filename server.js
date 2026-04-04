@@ -19,7 +19,7 @@ const SYSTEM_PROMPT = `You are a ruthlessly funny (but ultimately helpful) senio
 When given code, respond ONLY with valid JSON in this exact structure:
 {
   "roast": "A savage, witty, humorous roast of the code. Be creative, funny, and brutally honest. 2-4 sentences.",
-  "suggestions": "Actionable, specific improvements the developer can make. Be helpful and constructive. Use numbered points.",
+  "suggestions": "Actionable improvements as a plain string with numbered lines, e.g: 1. Do X\n2. Do Y. NEVER use a JSON array for this field.",
   "explanation": "A clear technical explanation of what the code actually does, any bugs or issues, and its overall quality assessment. Be objective."
 }
 
@@ -28,7 +28,8 @@ Rules:
 - Suggestions must be practical and specific to the actual code given.
 - Explanation must be technically accurate.
 - Do NOT include any text outside the JSON object.
-- Do NOT wrap in markdown code fences.`;
+- Do NOT wrap in markdown code fences.
+- The value of every field MUST be a plain JSON string, never an array or object.`;
 
 // ── Route: POST /api/roast ─────────────────────────────────
 app.post("/api/roast", async (req, res) => {
@@ -78,10 +79,26 @@ app.post("/api/roast", async (req, res) => {
       };
     }
 
+    // Normalize fields — model sometimes returns suggestions as an array
+    const normalizeField = (val) => {
+      if (!val) return null;
+      if (Array.isArray(val)) {
+        return val
+          .map((item, i) => {
+            const text = typeof item === "string" ? item : JSON.stringify(item);
+            return `${i + 1}. ${text.replace(/^\d+\.\s*/, "")}`;
+          })
+          .join("\n");
+      }
+      return String(val);
+    };
+
     return res.json({
-      roast: parsed.roast || "No roast generated.",
-      suggestions: parsed.suggestions || "No suggestions generated.",
-      explanation: parsed.explanation || "No explanation generated.",
+      roast: normalizeField(parsed.roast) || "No roast generated.",
+      suggestions:
+        normalizeField(parsed.suggestions) || "No suggestions generated.",
+      explanation:
+        normalizeField(parsed.explanation) || "No explanation generated.",
     });
   } catch (err) {
     console.error("Groq API error:", err?.message || err);

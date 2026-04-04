@@ -4,26 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Roast My Code</title>
+    <link rel="icon" type="image/png" href="fire.png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <!-- Header -->
     <header class="site-header">
       <div class="flame-strip"></div>
       <div class="container py-4">
         <div class="d-flex align-items-center gap-3">
-          <span class="fire-icon"></span>
+          <img src="fire.png" alt="fire" class="fire-icon-img" />
           <div>
             <h1 class="site-title mb-0">ROAST MY CODE</h1>
-            <p class="site-sub mb-0">Paste it. Brace yourself.</p>
+            <p class="site-sub mb-0">&gt; Paste it. Brace yourself._</p>
           </div>
         </div>
       </div>
@@ -54,10 +60,9 @@
                   class="btn btn-roast flex-grow-1"
                   onclick="roastCode()"
                 >
-                  <span class="btn-text">ROAST IT</span>
+                  <span class="btn-text">[ ROAST IT ]</span>
                   <span class="btn-loading d-none">
-                    <span class="spinner-border spinner-border-sm me-2"></span
-                    >Roasting...
+                    <span class="pixel-spinner me-2"></span>ROASTING...
                   </span>
                 </button>
                 <button
@@ -78,9 +83,69 @@
             id="placeholder"
             class="placeholder-panel h-100 d-flex align-items-center justify-content-center flex-column"
           >
-            <div class="placeholder-icon"></div>
+            <!-- Pixel Computer -->
+            <svg
+              class="placeholder-pixel-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="80"
+              viewBox="0 0 16 16"
+              shape-rendering="crispEdges"
+            >
+              <!-- Monitor outer bezel -->
+              <rect x="1" y="0" width="14" height="11" fill="#444" />
+              <!-- Monitor inner screen -->
+              <rect x="2" y="1" width="12" height="9" fill="#0a0f1a" />
+              <!-- Screen glow -->
+              <rect x="3" y="2" width="10" height="7" fill="#0d1a2e" />
+              <!-- Scanline tint -->
+              <rect
+                x="3"
+                y="2"
+                width="10"
+                height="1"
+                fill="#102030"
+                opacity="0.5"
+              />
+              <rect
+                x="3"
+                y="4"
+                width="10"
+                height="1"
+                fill="#102030"
+                opacity="0.5"
+              />
+              <rect
+                x="3"
+                y="6"
+                width="10"
+                height="1"
+                fill="#102030"
+                opacity="0.5"
+              />
+              <!-- Cursor blink (animated via CSS) -->
+              <rect
+                class="pixel-cursor"
+                x="4"
+                y="3"
+                width="1"
+                height="2"
+                fill="#ff7700"
+              />
+              <!-- Code lines on screen -->
+              <rect x="6" y="3" width="5" height="1" fill="#334" />
+              <rect x="4" y="5" width="7" height="1" fill="#334" />
+              <rect x="4" y="7" width="4" height="1" fill="#334" />
+              <!-- Stand neck -->
+              <rect x="7" y="11" width="2" height="2" fill="#555" />
+              <!-- Stand base -->
+              <rect x="4" y="13" width="8" height="1" fill="#555" />
+              <rect x="5" y="14" width="6" height="1" fill="#444" />
+              <!-- Power LED -->
+              <rect x="13" y="9" width="1" height="1" fill="#39d353" />
+            </svg>
             <p class="placeholder-text">
-              Your roast will appear here.<br />If you dare.
+              &gt; Your roast will appear here.<br />&gt; If you dare.
             </p>
           </div>
 
@@ -88,7 +153,29 @@
             <!-- Roast -->
             <div class="result-card roast-card">
               <div class="result-header">
-                <span class="result-icon"></span>
+                <span class="result-icon">
+                  <!-- Pixel Fire -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 8 8"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect x="3" y="0" width="2" height="1" fill="#ff4500" />
+                    <rect x="2" y="1" width="4" height="1" fill="#ff6600" />
+                    <rect x="1" y="2" width="2" height="1" fill="#ff4500" />
+                    <rect x="3" y="2" width="3" height="1" fill="#ffaa00" />
+                    <rect x="6" y="2" width="1" height="1" fill="#ff4500" />
+                    <rect x="1" y="3" width="6" height="1" fill="#ff6600" />
+                    <rect x="2" y="4" width="1" height="1" fill="#ffaa00" />
+                    <rect x="3" y="4" width="3" height="1" fill="#ff4500" />
+                    <rect x="6" y="4" width="1" height="1" fill="#ff6600" />
+                    <rect x="1" y="5" width="6" height="1" fill="#ff6600" />
+                    <rect x="2" y="6" width="5" height="1" fill="#ff4500" />
+                    <rect x="3" y="7" width="3" height="1" fill="#cc2200" />
+                  </svg>
+                </span>
                 <span class="result-title">THE ROAST</span>
               </div>
               <div id="roastText" class="result-body"></div>
@@ -97,7 +184,26 @@
             <!-- Suggestions -->
             <div class="result-card suggest-card">
               <div class="result-header">
-                <span class="result-icon"></span>
+                <span class="result-icon">
+                  <!-- Pixel Lightbulb -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 8 8"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect x="3" y="0" width="2" height="1" fill="#ffee44" />
+                    <rect x="2" y="1" width="4" height="1" fill="#ffee44" />
+                    <rect x="1" y="2" width="6" height="1" fill="#ffee44" />
+                    <rect x="1" y="3" width="6" height="1" fill="#ffdd00" />
+                    <rect x="1" y="4" width="6" height="1" fill="#ffcc00" />
+                    <rect x="2" y="5" width="4" height="1" fill="#ddaa00" />
+                    <rect x="2" y="6" width="4" height="1" fill="#888" />
+                    <rect x="3" y="7" width="2" height="1" fill="#888" />
+                    <rect x="2" y="2" width="1" height="2" fill="#ffffaa" />
+                  </svg>
+                </span>
                 <span class="result-title">SUGGESTIONS</span>
               </div>
               <div id="suggestText" class="result-body"></div>
@@ -106,16 +212,29 @@
             <!-- Explanation -->
             <div class="result-card explain-card">
               <div class="result-header">
-                <span class="result-icon"></span>
+                <span class="result-icon">
+                  <!-- Pixel Book -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 8 8"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect x="1" y="0" width="1" height="8" fill="#4488cc" />
+                    <rect x="2" y="0" width="5" height="8" fill="#5599dd" />
+                    <rect x="2" y="0" width="5" height="1" fill="#77bbff" />
+                    <rect x="7" y="0" width="1" height="8" fill="#336699" />
+                    <rect x="3" y="2" width="3" height="1" fill="#aaddff" />
+                    <rect x="3" y="4" width="3" height="1" fill="#aaddff" />
+                    <rect x="3" y="6" width="2" height="1" fill="#aaddff" />
+                    <rect x="1" y="3" width="1" height="2" fill="#336699" />
+                  </svg>
+                </span>
                 <span class="result-title">EXPLANATION</span>
               </div>
               <div id="explainText" class="result-body"></div>
             </div>
-          </div>
-
-          <!-- Error -->
-          <div id="errorBox" class="error-box d-none mt-2">
-            <span></span> <span id="errorMsg"></span>
           </div>
         </div>
       </div>
@@ -123,7 +242,31 @@
 
     <footer class="site-footer text-center py-3">
       <span
-        >Built with ☕ and zero mercy &nbsp;|&nbsp; Powered by
+        >Built with
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 8 8"
+          shape-rendering="crispEdges"
+          style="vertical-align: middle; margin: 0 2px"
+        >
+          <!-- Steam -->
+          <rect x="2" y="0" width="1" height="1" fill="#aaa" />
+          <rect x="4" y="0" width="1" height="1" fill="#aaa" />
+          <!-- Cup -->
+          <rect x="1" y="2" width="5" height="1" fill="#8B5E3C" />
+          <rect x="1" y="3" width="5" height="1" fill="#A0522D" />
+          <rect x="1" y="4" width="5" height="1" fill="#A0522D" />
+          <rect x="1" y="5" width="5" height="1" fill="#8B5E3C" />
+          <rect x="2" y="6" width="3" height="1" fill="#8B5E3C" />
+          <!-- Handle -->
+          <rect x="6" y="3" width="1" height="2" fill="#8B5E3C" />
+          <!-- Coffee fill -->
+          <rect x="2" y="3" width="3" height="1" fill="#3B1A08" />
+          <rect x="2" y="4" width="3" height="1" fill="#4a220a" />
+        </svg>
+        and zero mercy &nbsp;|&nbsp; Powered by
         <strong>Groq AI</strong></span
       >
     </footer>
