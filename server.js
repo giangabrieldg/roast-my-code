@@ -6,6 +6,14 @@ const Groq = require("groq-sdk");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "https://roast-my-code-tr95.onrender.com", // static site URL
+  }),
+);
+
 // ── Middleware ─────────────────────────────────────────────
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));

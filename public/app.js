@@ -50,7 +50,7 @@ async function roastCode() {
   hideResults();
 
   try {
-    const res = await fetch("/api/roast", {
+    const res = await fetch("https://rmc-backend-fzqi.onrender.com/api/roast", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code }),
